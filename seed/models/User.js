@@ -32,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
+              isEmail: true,  
               //is: (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(myForm.emailAddr.value)),
                 notEmpty: {
                     msg: "Please provide a valid email address - (e.g. mysite@ourearth.com)"
