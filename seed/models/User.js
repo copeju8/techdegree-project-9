@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         password: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false,
             validate: {
               //is: /^[A-Za-z]\w{7,14}$/
