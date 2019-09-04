@@ -19,7 +19,7 @@ const app = express();
 app.use(morgan('dev'));
 app.use(express.json());
 // app.use('/api', courseRouter);
-app.use('/api', routes);
+app.use('/api', userRouter);
 
 // TODO setup your api routes here
 //imported routes folder/path
