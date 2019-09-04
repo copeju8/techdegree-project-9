@@ -3,8 +3,6 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator/check');
 
-const users = [];
-
 router.get('/users', (req, res) => {
   res.status(200).json({
     message: 'Welcome to the user"s route project!'
@@ -21,6 +19,7 @@ router.post('/users', (req, res) => {
 
   // Set the status to 201 Created and end the response.
   res.status(201).end();
+  // }   
 });
   
 module.exports = router;
