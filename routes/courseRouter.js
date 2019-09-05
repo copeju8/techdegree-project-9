@@ -2,7 +2,7 @@
 // const express = require('express');
 // const router = express.Router();
 
-// //Send a GET request to /courses to READ a list of courses
+//Send a GET request to /courses to READ a list of courses
 // router.get('/', (req, res) => {
 //   res.status(200).json({
 //     message: 'Welcome to the course route project!'
@@ -22,4 +22,4 @@
 //     // .catch(err => console.log(err))
 // });
 
-module.exports = router;
+// module.exports = router;
