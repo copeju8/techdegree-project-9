@@ -19,16 +19,12 @@ app.use('/api/users', userRouter);
 
 // TODO setup your api routes here
 
-
 // setup a friendly greeting for the root route
 app.get('/', (req, res) => {
   res.json({
     message: 'Welcome to the REST API project!',
   });
 });
-
-
-
 
 //Course Routes
 //GET /api/courses 200 - Returns a list of courses (including the user that owns each course)

@@ -2,7 +2,7 @@
 
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-    const Users = sequelize.define('User', {
+    const User = sequelize.define('User', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -32,11 +32,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-              isEmail: true,  
               //is: (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(myForm.emailAddr.value)),
-                notEmpty: {
-                    msg: "Please provide a valid email address - (e.g. mysite@ourearth.com)"
-                }
+              isEmail: {
+                msg: "Please provide a valid email address - (e.g. mysite@ourearth.com)"
+              }  
             }
         },
         password: {
@@ -51,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
     User.associate = (models) => {
-        User.hasMany(models.Course, {
+        models.User.hasMany(models.Course, {
           as: "user",
           foreignKey: {
             fieldName: 'userId',
