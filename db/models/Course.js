@@ -2,7 +2,7 @@
 
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-    const Courses = sequelize.define('Course', {
+    const Course = sequelize.define('Course', {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -57,8 +57,16 @@ module.exports = (sequelize, DataTypes) => {
           }
       }
     });
-    Course.associate = function (models) {
-       Course.belongsTo(models.User, {foreignKey: 'userId' });
-    }
-    return Course;
+    Course.associate = (models) => {
+      // associations can be defined here
+      Course.belongsTo(models.User, {
+        as: "user",
+        foreignKey: {
+          fieldName: 'userId',
+          allowNull: false,
+        },
+      });
+  };
+  return Course;
 };
+    

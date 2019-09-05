@@ -3,6 +3,7 @@
 // load modules
 const express = require('express');
 const morgan = require('morgan');
+const { sequelize } = require('./db/Index');
 const userRouter = require('./routes/userRouter');
 //const User = require('../models').User;
 
@@ -60,3 +61,13 @@ app.set('port', process.env.PORT || 5000);
 const server = app.listen(app.get('port'), () => {
   console.log(`Express server is listening on port ${server.address().port}`);
 });
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully!");
+    return sequelize.sync();
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:", err');
+  });

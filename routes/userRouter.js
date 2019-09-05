@@ -1,11 +1,20 @@
 //Configures the Sequelize ORM
 const express = require('express');
 const router = express.Router();
-const data = require('../seed/data.json');
-const User = require('../models/User');
-const userData = data.users;
+const dbmodule = require('../db');
+const models = dbmodule.models;
 const bcryptjs = require('bcryptjs');
 const auth = require('basic-auth');
+const { Course, User } = models
+
+//Test code - get all
+router.get('/', (req, res) => {
+  User.findAll({
+   
+  }).then((user) => {
+    res.json(user);
+  });
+});
 
 // const {
 //   check,
@@ -15,98 +24,98 @@ const auth = require('basic-auth');
 // const bcryptjs = require('bcrypt');
 
 //User authentication middleware function
-const authenticateUser = async (req, res, next) => {
-  let message;
-  // Parse the user's credentials from the Authorization header.
-  const credentials = auth(req);
-  if(credentials) {
-    //Find user with matching email address
-    const user = await User.findOne({
-        raw: true,
-        where: {
-          emailAddress: credentials.name,
-        },
-    });
-    //If user matches email
-    if(user) {
-      // Use the bcryptjs npm package to compare the user's password
-      // (from the Authorization header) to the user's password
-      // that was retrieved from the data store.
-      const authenticated = bcryptjs.compareSync(credentials.pass, user.password);
-      //If password matches
-      if(authenticated) {
-        console.log(`Authentication successful for user: ${user.firstName} ${user.lastName}`);
-        if(req.originalUrl.includes('courses')) {
-          //If route has a courses endpoint, set request userId to matched user id
-          req.body.userId = user.id;
-        } else if(req.originalUrl.includes('users')) {
-          //If route has a users endpoint, set request id to matched user id
-          req.body.id = user.id;
-        }
-      } else {
-        //Otherwise the Authentication failed
-        message = `Authentication failed for user: ${user.firstName} ${user.lastName}`;
-      }
-    } else {
-      // No email matching the Authorization header
-      message = `User not found for email address: ${credentials.name}`;
-    }
-  } else {
-    //No user credentials/authorization header available
-    message = 'Authorization header not found';
-  }
-  // Deny Access if there is anything stored in message
-  if(message) {
-    console.warn(message);
-    const err = new Error('Access Denied');
-    err.status = 401;
-    next(err);
-  } else {
-    //User authenticated
-    next();
-  }
-}
+// const authenticateUser = async (req, res, next) => {
+//   let message;
+//   // Parse the user's credentials from the Authorization header.
+//   const credentials = auth(req);
+//   if(credentials) {
+//     //Find user with matching email address
+//     const user = await User.findOne({
+//         raw: true,
+//         where: {
+//           emailAddress: credentials.name,
+//         },
+//     });
+//     //If user matches email
+//     if(user) {
+//       // Use the bcryptjs npm package to compare the user's password
+//       // (from the Authorization header) to the user's password
+//       // that was retrieved from the data store.
+//       const authenticated = bcryptjs.compareSync(credentials.pass, user.password);
+//       //If password matches
+//       if(authenticated) {
+//         console.log(`Authentication successful for user: ${user.firstName} ${user.lastName}`);
+//         if(req.originalUrl.includes('courses')) {
+//           //If route has a courses endpoint, set request userId to matched user id
+//           req.body.userId = user.id;
+//         } else if(req.originalUrl.includes('users')) {
+//           //If route has a users endpoint, set request id to matched user id
+//           req.body.id = user.id;
+//         }
+//       } else {
+//         //Otherwise the Authentication failed
+//         message = `Authentication failed for user: ${user.firstName} ${user.lastName}`;
+//       }
+//     } else {
+//       // No email matching the Authorization header
+//       message = `User not found for email address: ${credentials.name}`;
+//     }
+//   } else {
+//     //No user credentials/authorization header available
+//     message = 'Authorization header not found';
+//   }
+//   // Deny Access if there is anything stored in message
+//   if(message) {
+//     console.warn(message);
+//     const err = new Error('Access Denied');
+//     err.status = 401;
+//     next(err);
+//   } else {
+//     //User authenticated
+//     next();
+//   }
+// }
 
-router.get('/', authenticateUser, async (req, res) => {
-    const user = await User.findByPk(
-     req.body.id,
-  { 
-    attributes: {
-      exclude: ['password', 'createdAt', 'updatedAt'],
-    },
-  }
-); 
-  res.json(user);
-})
+// router.get('/', authenticateUser, async (req, res) => {
+//     const user = await User.findByPk(
+//      req.body.id,
+//   { 
+//     attributes: {
+//       exclude: ['password', 'createdAt', 'updatedAt'],
+//     },
+//   }
+// ); 
+//   res.json(user);
+// })
 
-//User's Routes
+// //User's Routes
 
-//GET/api/users 200 - Returns the currently authenticated user
-// router.get('/', (req, res) => {
-//   res.status(200).json({
-//     message: 'Welcome to the user"s route project!'
-//   });
-// });
+// //GET/api/users 200 - Returns the currently authenticated user
+// // router.get('/', (req, res) => {
+// //   res.status(200).json({
+// //     message: 'Welcome to the user"s route project!'
+// //   });
+// // });
 
-//POST/api/users 201 - Creates a user, sets the Location header to "/", and returns no content
-// This array is used to keep track of user records as they are created.
+// //POST/api/users 201 - Creates a user, sets the Location header to "/", and returns no content
+// // This array is used to keep track of user records as they are created.
 
-// Route that creates a new user.
+// // Route that creates a new user.
 
-router.post('/', (req, res) => {
-  //If there is a password
-  if(req.body.password) {
-    //Hash the password and then attempt to create a new user
-    req.body.password = bcryptjs.hashSync(req.body.password);
-    //Model validations for User Model
-    User.create(req.body);
-    res.location('/');
-    res.status(201).end();
-  } else{
-    //Respond with status 401
-    res.status(401).end();
-  }
-})
+// router.post('/', (req, res) => {
+//   //If there is a password
+//   if(req.body.password) {
+//     //Hash the password and then attempt to create a new user
+//     req.body.password = bcryptjs.hashSync(req.body.password);
+//     //Model validations for User Model
+//     User.create(req.body);
+//     res.location('/');
+//     res.status(201).end();
+//   } else{
+//     //Respond with status 401
+//     res.status(401).end();
+//   }
+// })
 
 
 module.exports = router;
