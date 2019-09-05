@@ -71,13 +71,11 @@ const authenticateUser = async (req, res, next) => {
 
 router.get('/', authenticateUser, async (req, res) => {
     const user = await User.findByPk(
-     req.body.id,
-  { 
+     req.body.id, { 
     attributes: {
       exclude: ['password', 'createdAt', 'updatedAt'],
     },
-  }
-); 
+  });
   res.json(user);
 })
 
