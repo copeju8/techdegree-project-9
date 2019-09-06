@@ -61,7 +61,7 @@ const authenticateUser = async (req, res, next) => {
     next();
   }
 }
-
+//GET/api/courses 200
 router.get('/', async(req, res) => {
   const courses =  await Course.findAll({
       include: [{
@@ -73,7 +73,7 @@ router.get('/', async(req, res) => {
     res.json(courses)
   })
   
-
+//GET/api/courses/:id 
 router.get('/:id', async(req, res, next) => {
   const oneCourse = await Course.findOne({
       where: {
@@ -89,7 +89,11 @@ router.get('/:id', async(req, res, next) => {
     res.json(oneCourse); 
 })  
 
-
+router.post('/', async (req, res) => {
+    const createCourse = await Course.create(req.body); 
+    res.location(`/api/courses/${createCourse.id}`);
+    res.status(201).end();
+})     
 
 
 //Test Code - Course Router 
