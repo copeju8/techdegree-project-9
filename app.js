@@ -5,7 +5,7 @@ const express = require('express');
 const morgan = require('morgan');
 const { sequelize } = require('./db/Index');
 const userRouter = require('./routes/userRouter');
-// const User = require('../models').User;
+const courseRouter = require('./routes/userRouter');
 
 
 // variable to enable global error logging
@@ -14,16 +14,13 @@ const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'tr
 // create the Express app
 const app = express();
 
-// Body-parser - must be before app.use
+// Body-parser - must be before app.use routers and morgan
 app.use(express.json());
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
 app.use('/api/users', userRouter);
-// app.use('/api/courses', courseRouter);
-
-
-
+app.use('/api/courses', courseRouter);
 
 // TODO setup your api routes here
 
@@ -36,6 +33,8 @@ app.get('/', (req, res) => {
 
 //Course Routes
 //GET /api/courses 200 - Returns a list of courses (including the user that owns each course)
+
+
 //GET /api/courses/:id 200 - Returns a the course (including the user that owns the course) for the provided course ID
 //POST /api/courses 201 - Creates a course, sets the Location header to the URI for the course, and returns no content
 //PUT /api/courses/:id 204 - Updates a course and returns no content

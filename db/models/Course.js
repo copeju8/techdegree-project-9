@@ -8,16 +8,6 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },  
-        // userId: {
-        //     type: DataTypes.INTEGER,
-        //     allowNull: false, // disallow null
-        //     validate: {
-        //       isNumeric: true, 
-        //         notEmpty: {
-        //             msg: "Please enter a valid first name - numbers only."
-        //         }
-        //     }
-        // },
         title: {
           type: DataTypes.STRING,
           allowNull: false, // disallow null

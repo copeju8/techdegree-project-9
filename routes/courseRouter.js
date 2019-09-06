@@ -1,25 +1,39 @@
-// //Configures the Sequelize ORM
-// const express = require('express');
-// const router = express.Router();
+//Configures the Sequelize ORM
+const express = require('express');
+const router = express.Router();
+const dbmodule = require('../db');
+const models = dbmodule.models;
+const bcryptjs = require('bcryptjs');
+const auth = require('basic-auth');
+const { Course, User } = models
 
-//Send a GET request to /courses to READ a list of courses
+
+//GET/api/courses 200 - Return list of courses (owned by user)
+router.get('/:id', (req, res, next) => {
+  const Course = router.get('dbmodule').Course;
+
+  Course.findAll()
+    .then(courseList => {
+      res.json(courseList);
+    })
+    .catch(err => console.log(err))
+});
+
+
+//Test Code - Course Router 
 // router.get('/', (req, res) => {
 //   res.status(200).json({
 //     message: 'Welcome to the course route project!'
 //   });
 // });
 
-// // Send a GET request to /quotes to READ a list of quotes
-
-// //Find book list
-// router.get('/courses', (req, res, next) => {
-//   const Course = router.get('models').Course;
-
-//   Course.findAll()
-//     .then(courseList => {
-//       res.json(courseList);
-//     })
-//     // .catch(err => console.log(err))
+//Test code - get all
+// router.get('/', (req, res) => {
+//   User.findAll({
+   
+//   }).then((user) => {
+//     res.json(user);
+//   });
 // });
 
 // module.exports = router;

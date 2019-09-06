@@ -8,15 +8,6 @@ const auth = require('basic-auth');
 const { Course, User } = models
 
 
-//Test code - get all
-// router.get('/', (req, res) => {
-//   User.findAll({
-   
-//   }).then((user) => {
-//     res.json(user);
-//   });
-// });
-
 //User authentication middleware function
 const authenticateUser = async (req, res, next) => {
   let message;
@@ -81,18 +72,28 @@ router.get('/', authenticateUser, async (req, res, next) => {
 
   } catch(err) {
       next(err)
-  }
-    
+  }  
 })
 
-// //User's Routes
+//User's Routes - Test Code
 
-// //GET/api/users 200 - Returns the currently authenticated user
-// // router.get('/', (req, res) => {
-// //   res.status(200).json({
-// //     message: 'Welcome to the user"s route project!'
-// //   });
-// // });
+//GET/api/users 200 - Returns the currently authenticated user
+// router.get('/', (req, res) => {
+//   res.status(200).json({
+//     message: 'Welcome to the user"s route project!'
+//   });
+// });
+
+//Test code - get all
+// router.get('/', (req, res) => {
+//   User.findAll({
+   
+//   }).then((user) => {
+//     res.json(user);
+//   });
+// });
+
+
 
 // //POST/api/users 201 - Creates a user, sets the Location header to "/", and returns no content
 // // This array is used to keep track of user records as they are created.
