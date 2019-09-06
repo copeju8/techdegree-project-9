@@ -8,21 +8,21 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },  
-        userId: {
-            type: DataTypes.INTEGER,
-            allowNull: false, // disallow null
-            validate: {
-              isNumeric: true, 
-                notEmpty: {
-                    msg: "Please enter a valid first name - numbers only."
-                }
-            }
-        },
+        // userId: {
+        //     type: DataTypes.INTEGER,
+        //     allowNull: false, // disallow null
+        //     validate: {
+        //       isNumeric: true, 
+        //         notEmpty: {
+        //             msg: "Please enter a valid first name - numbers only."
+        //         }
+        //     }
+        // },
         title: {
           type: DataTypes.STRING,
           allowNull: false, // disallow null
           validate: {
-            isAlpha: true,
+            // isAlpha: true,
               notEmpty: {
                   msg: 'Please enter a title.'
               }
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.TEXT,
             allowNull: false,
             validate: {
-              isEmail: true,  
+              // isEmail: true,  
                 notEmpty: {
                     msg: "Please enter a valid email address - (e.g. mysite@ourearth.com)"
                 }
@@ -41,22 +41,22 @@ module.exports = (sequelize, DataTypes) => {
         estimatedTime: {
             type: DataTypes.STRING,
             allowNull: true,
-            validate: {
-                isNumeric: {
-                    msg: 'What is this?'
-                }
-            }
+            // validate: {
+                // isNumeric: {
+                //     msg: 'What is this?'
+                // }
+            // }
         },
         materialsNeeded: {
           type: DataTypes.STRING,
           allowNull: true,
-          validate: {
-              isNumeric: {
-                  msg: 'What is this?'
-              }
-          }
+          // validate: {
+          //     isNumeric: {
+          //         msg: 'What is this?'
+          //     }
+          // }
       }
-    });
+    }, {});
     Course.associate = (models) => {
       // associations can be defined here
       Course.belongsTo(models.User, {

@@ -35,15 +35,18 @@ module.exports = (sequelize, DataTypes) => {
               //is: (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(myForm.emailAddr.value)),
               isEmail: {
                 msg: "Please provide a valid email address - (e.g. mysite@ourearth.com)"
-              }  
+              },
+              notEmpty: {
+                msg: 'Email address is required.'
             }
+          },
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
               //is: /^[A-Za-z]\w{7,14}$/
-                isNumeric: {
+                notEmpty: {
                     msg: 'Please enter a password between 7 to 15 characters which contain at least one numeric digit and a special character.'
                 }
             }

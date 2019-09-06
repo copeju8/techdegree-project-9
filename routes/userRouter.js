@@ -7,6 +7,7 @@ const bcryptjs = require('bcryptjs');
 const auth = require('basic-auth');
 const { Course, User } = models
 
+
 //Test code - get all
 // router.get('/', (req, res) => {
 //   User.findAll({
@@ -69,13 +70,19 @@ const authenticateUser = async (req, res, next) => {
   }
 }
 
-router.get('/', authenticateUser, async (req, res) => {
+router.get('/', authenticateUser, async (req, res, next) => {
+  try{
     const user = await User.findByPk(req.body.id, { 
-    attributes: {
-        exclude: ['password', 'createdAt', 'updatedAt'],
-    },
-  });
-  res.json(user);
+      attributes: {
+          exclude: ['password', 'createdAt', 'updatedAt'],
+      },
+    });
+    res.json(user);
+
+  } catch(err) {
+      next(err)
+  }
+    
 })
 
 // //User's Routes
