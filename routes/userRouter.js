@@ -75,6 +75,24 @@ router.get('/', authenticateUser, async (req, res, next) => {
   }  
 })
 
+// //POST/api/users 201 - Creates a user, sets the Location header to "/", and returns no content
+// // This array is used to keep track of user records as they are created.
+
+router.post('/', (req, res) => {
+  //If there is a password
+  if(req.body.password) {
+    //Hash the password and then attempt to create a new user
+    req.body.password = bcryptjs.hashSync(req.body.password);
+    //Model validations for User Model
+    User.create(req.body);
+    res.location('/');
+    res.status(201).end();
+  } else{
+    //Respond with status 401
+    res.status(401).end();
+  }
+})
+
 //User's Routes - Test Code
 
 //GET/api/users 200 - Returns the currently authenticated user
@@ -92,28 +110,6 @@ router.get('/', authenticateUser, async (req, res, next) => {
 //     res.json(user);
 //   });
 // });
-
-
-
-// //POST/api/users 201 - Creates a user, sets the Location header to "/", and returns no content
-// // This array is used to keep track of user records as they are created.
-
-// // Route that creates a new user.
-
-// router.post('/', (req, res) => {
-//   //If there is a password
-//   if(req.body.password) {
-//     //Hash the password and then attempt to create a new user
-//     req.body.password = bcryptjs.hashSync(req.body.password);
-//     //Model validations for User Model
-//     User.create(req.body);
-//     res.location('/');
-//     res.status(201).end();
-//   } else{
-//     //Respond with status 401
-//     res.status(401).end();
-//   }
-// })
 
 
 module.exports = router;

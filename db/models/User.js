@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },  
-        firstName: {
+      firstName: {
             type: DataTypes.STRING,
             allowNull: false, // disallow null
             validate: {
@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
     User.associate = (models) => {
-        models.User.hasMany(models.Course, {
+        User.hasMany(models.Course, {
           as: "user",
           foreignKey: {
             fieldName: 'userId',

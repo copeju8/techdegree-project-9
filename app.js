@@ -5,11 +5,7 @@ const express = require('express');
 const morgan = require('morgan');
 const { sequelize } = require('./db/Index');
 const userRouter = require('./routes/userRouter');
-const courseRouter = require('./routes/userRouter');
-
-
-// variable to enable global error logging
-const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
+const courseRouter = require('./routes/courseRouter');
 
 // create the Express app
 const app = express();
@@ -19,10 +15,6 @@ app.use(express.json());
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
-app.use('/api/users', userRouter);
-app.use('/api/courses', courseRouter);
-
-// TODO setup your api routes here
 
 // setup a friendly greeting for the root route
 app.get('/', (req, res) => {
@@ -31,15 +23,9 @@ app.get('/', (req, res) => {
   });
 });
 
-//Course Routes
-//GET /api/courses 200 - Returns a list of courses (including the user that owns each course)
-
-
-//GET /api/courses/:id 200 - Returns a the course (including the user that owns the course) for the provided course ID
-//POST /api/courses 201 - Creates a course, sets the Location header to the URI for the course, and returns no content
-//PUT /api/courses/:id 204 - Updates a course and returns no content
-//DELETE /api/courses/:id 204 - Deletes a course and returns no content
-
+// TODO setup your api routes here
+app.use('/api/users', userRouter);
+app.use('/api/courses', courseRouter);
 
 // send 404 if no other route matched
 app.use((req, res) => {
@@ -48,12 +34,14 @@ app.use((req, res) => {
   });
 });
 
+// variable to enable global error logging
+const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
+
 // setup a global error handler
 app.use((err, req, res, next) => {
   if (enableGlobalErrorLogging) {
     console.error(`Global error handler: ${JSON.stringify(err.stack)}`);
   }
-
   res.status(err.status || 500).json({
     message: err.message,
     error: {},
