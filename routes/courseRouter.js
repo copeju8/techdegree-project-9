@@ -94,6 +94,28 @@ router.post('/', async (req, res) => {
     res.location(`/api/courses/${createCourse.id}`);
     res.status(201).end();
 })     
+//PUT/api/courses 201
+router.put('/:id', authenticateUser, async(req,res) => {
+  // try{
+   const editCourse = await records.getCourse(req.body);
+  //   if(course) {
+  //     course.course = req.body.course;
+  //     course.course = req.body.author;
+
+      await records.updateCourse(`/api/courses/${editCourse.id}`);
+      res.status(204).end();
+  //   } else {
+  //       res.status(404).json({message: "Quote Not Found"});
+  //   }  
+  
+  // } catch(err) { 
+  //   res.status(500).json({message: err.message});
+  // } 
+});
+
+
+
+
 
 
 //Test Code - Course Router 
