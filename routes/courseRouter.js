@@ -98,11 +98,12 @@ router.post('/', async (req, res) => {
 router.put('/:id', authenticateUser, async(req,res) => {
   // try{
    const editCourse = await records.getCourse(req.body);
+   req.authenticateUser();
   //   if(course) {
   //     course.course = req.body.course;
   //     course.course = req.body.author;
 
-      await records.updateCourse(`/api/courses/${editCourse.id}`);
+      await Course.updateCourse(`/api/courses/${editCourse.id}`);
       res.status(204).end();
   //   } else {
   //       res.status(404).json({message: "Quote Not Found"});
