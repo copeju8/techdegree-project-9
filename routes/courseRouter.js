@@ -107,22 +107,29 @@ router.put('/:id', authenticateUser, async(req,res) => {
       course.updatedAt = req.body.updatedAt;
       course.updatedAt = req.body.Id;
 
-      course = await course.update(req.body);
+      course = await course.update(req.body);  //Go back and update 'course'
       res.status(204).end();
     } else{
       res.status(403).json({message: "You are not authorized to make changes to this course."});
       // res.redirect('back');
     // } else {
-    //     res.status(404).json({message: "Quote Not Found"});
+    //     res.status(404).json({message: "Course Not Found"});
   }  
   } catch(err) { 
     res.status(500).json({message: err.message});
   }
 })
 
-
-
-
+// DELETE/api/courses/:id 204 
+router.delete('/:id', authenticateUser, async(req,res) => {
+  try {
+    let course = await Course.findByPk(req.params.id);
+    await course.destroy(course); 
+    res.status(204).end();          //Successful - no content
+  }catch(err){
+    res.status(500).json({message: err.message});
+  }
+});
 
 
 //Test Code - Course Router 
