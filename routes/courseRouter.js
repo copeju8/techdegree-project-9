@@ -89,11 +89,23 @@ router.get('/:id', async(req, res, next) => {
     res.json(oneCourse); 
 })  
 
-router.post('/', async (req, res) => {
+router.post('/', authenticateUser, async (req, res, next) => {
+  try{
+    if(req.body.title && req.body.description)  {
     const createCourse = await Course.create(req.body); 
     res.location(`/api/courses/${createCourse.id}`);
     res.status(201).end();
-})     
+    }else {
+      const err = new Error('Missing Information')
+      err.status = 400;
+      next(err);
+    }  
+  }catch (err) {
+    console.log("Error 401 - Unauthorized Request");
+    next(err);
+  } 
+})
+
 //PUT/api/courses 201
 router.put('/:id', authenticateUser, async(req,res) => {
   try{
@@ -111,9 +123,6 @@ router.put('/:id', authenticateUser, async(req,res) => {
       res.status(204).end();
     } else{
       res.status(403).json({message: "You are not authorized to make changes to this course."});
-      // res.redirect('back');
-    // } else {
-    //     res.status(404).json({message: "Course Not Found"});
   }  
   } catch(err) { 
     res.status(500).json({message: err.message});
@@ -128,7 +137,7 @@ router.delete('/:id', authenticateUser, async(req,res) => {
     res.status(204).end();          //Successful - no content
   }catch(err){
     res.status(500).json({message: err.message});
-  }
+  }  //TODO - client request quote that does not exist
 });
 
 

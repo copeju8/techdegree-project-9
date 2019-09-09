@@ -12,9 +12,9 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false, // disallow null
             validate: {
-               // is: ["^[a-z]+$", 'i'],  //Allow non-numeric characters only
+               is: ["^[a-z]+$", 'i'],  //Allow letters only - TODO
                 notEmpty: {
-                    msg: "Please enter a valid first name - non-numeric characters only."
+                    msg: "Please enter a valid first name - letters only."
                 }
             }
         },
@@ -22,9 +22,9 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                // is:["^[a-z]+$", 'i'], //Allow non-numeric characters only
+                is:["^[a-z]+$", 'i'], //Allow letters only - TODO
                 notEmpty: {
-                    msg: "Please enter a valid last name - non-numeric characters only."
+                    msg: "Please enter a valid last name - letters only."
                 }
             }
         },
@@ -32,7 +32,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-              //is: (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(myForm.emailAddr.value)),
               isEmail: {
                 msg: "Please provide a valid email address - (e.g. mysite@ourearth.com)"
               },
@@ -45,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-              //is: /^[A-Za-z]\w{7,14}$/
+              is: /^[A-Za-z]\w{7,14}$/,
                 notEmpty: {
                     msg: 'Please enter a password between 7 to 15 characters which contain at least one numeric digit and a special character.'
                 }

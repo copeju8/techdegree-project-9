@@ -22,9 +22,8 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.TEXT,
             allowNull: false,
             validate: {
-              // isEmail: true,  
                 notEmpty: {
-                    msg: "Please enter a valid email address - (e.g. mysite@ourearth.com)"
+                    msg: 'Please reload this course to view the course description.'
                 }
             }
         },
@@ -48,7 +47,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     }, {});
     Course.associate = (models) => {
-      // associations can be defined here
       Course.belongsTo(models.User, {
         as: "user",
         foreignKey: {
