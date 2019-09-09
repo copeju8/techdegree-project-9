@@ -96,23 +96,29 @@ router.post('/', async (req, res) => {
 })     
 //PUT/api/courses 201
 router.put('/:id', authenticateUser, async(req,res) => {
-  // try{
-   const editCourse = await records.getCourse(req.body);
-   req.authenticateUser();
-  //   if(course) {
-  //     course.course = req.body.course;
-  //     course.course = req.body.author;
+  try{
+  let course = await Course.findByPk(req.params.id);
+     if(course.userId = req.body.userId) {
+      course.title = req.body.title;
+      course.description = req.body.description;
+      course.estimatedTime = req.body.estimatedTime;
+      course.materialsNeeded = req.body.materialsNeeded;
+      course.createdAt= req.body.createdAt;
+      course.updatedAt = req.body.updatedAt;
+      course.updatedAt = req.body.Id;
 
-      await Course.updateCourse(`/api/courses/${editCourse.id}`);
+      course = await course.update(req.body);
       res.status(204).end();
-  //   } else {
-  //       res.status(404).json({message: "Quote Not Found"});
-  //   }  
-  
-  // } catch(err) { 
-  //   res.status(500).json({message: err.message});
-  // } 
-});
+    } else{
+      res.status(403).json({message: "You are not authorized to make changes to this course."});
+      // res.redirect('back');
+    // } else {
+    //     res.status(404).json({message: "Quote Not Found"});
+  }  
+  } catch(err) { 
+    res.status(500).json({message: err.message});
+  }
+})
 
 
 
