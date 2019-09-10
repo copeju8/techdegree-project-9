@@ -30,21 +30,11 @@ module.exports = (sequelize, DataTypes) => {
         estimatedTime: {
             type: DataTypes.STRING,
             allowNull: true,
-            // validate: {
-                // isNumeric: {
-                //     msg: 'What is this?'
-                // }
-            // }
         },
         materialsNeeded: {
           type: DataTypes.STRING,
           allowNull: true,
-          // validate: {
-          //     isNumeric: {
-          //         msg: 'What is this?'
-          //     }
-          // }
-      }
+        }   
     }, {});
     Course.associate = (models) => {
       Course.belongsTo(models.User, {

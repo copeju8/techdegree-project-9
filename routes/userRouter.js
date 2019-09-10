@@ -60,7 +60,7 @@ const authenticateUser = async (req, res, next) => {
     next();
   }
 }
-
+//Returns the authenticated user
 router.get('/', authenticateUser, async (req, res, next) => {
   try{
     const user = await User.findByPk(req.body.id, { 
@@ -78,20 +78,29 @@ router.get('/', authenticateUser, async (req, res, next) => {
 // //POST/api/users 201 - Creates a user, sets the Location header to "/", and returns no content
 // // This array is used to keep track of user records as they are created.
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res, next) => {
+  try {
   //If there is a password
-  if(req.body.password) {
-    //Hash the password and then attempt to create a new user
-    req.body.password = bcryptjs.hashSync(req.body.password);
-    //Model validations for User Model
-    User.create(req.body);
-    res.location('/');
-    res.status(201).end();
-  } else{
-    //Respond with status 401
-    res.status(401).end();
+    if(req.body.password && req.body.firstName && req.body.lastName && req.body.emailAddress) {
+      //Hash the password and then attempt to create a new user
+      req.body.password = bcryptjs.hashSync(req.body.password);
+      //Model validations for User Model
+      await User.create(req.body);
+      res.location('/');
+      res.status(201).end();
+    } else{
+      //Respond with status 400
+      res.status(400).end();
+    }
+}catch (err) {
+  if(err.name === "SequelizeValidatorError") {
+    console.log("Error 400 - Validation Error")
+    res.status(400).end();
+  } else {
+    console.log("Error 500 - Internal Server Error")
+    next(err);
   }
-})
+}})
 
 //User's Routes - Test Code
 

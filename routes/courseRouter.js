@@ -90,7 +90,7 @@ router.get('/:id', async(req, res, next) => {
 })  
 
 //POST/api/courses 201 - Create a course, sets the Location header to the URI for the course - returns no content.
-router.post('/', authenticateUser, async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try{
     if(req.body.title && req.body.description)  {
     const createCourse = await Course.create(req.body); 
@@ -108,7 +108,7 @@ router.post('/', authenticateUser, async (req, res, next) => {
 })
 
 //PUT/api/courses 201  - Updates a course and returns no content.
-router.put('/:id', authenticateUser, async(req,res) => {
+router.put('/:id', authenticateUser, async(req,res, next) => {
   try{
   let course = await Course.findByPk(req.params.id);
      if(course.userId = req.body.userId) {

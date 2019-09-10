@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-              is: /^[A-Za-z]\w{7,14}$/,
+                // is: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/,
                 notEmpty: {
                     msg: 'Please enter a password between 7 to 15 characters which contain at least one numeric digit and a special character.'
                 }
