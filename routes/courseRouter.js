@@ -67,7 +67,7 @@ router.get('/', async(req, res) => {
       include: [{
         model: User,
         as: 'user',
-        attributes: ['id', 'firstName', 'lastName', 'emailAddress']
+        attributes: ['id', 'firstName', 'lastName', 'emailAddress'],
       }]
     })
     res.json(courses)
@@ -108,7 +108,7 @@ router.post('/', async (req, res, next) => {
 })
 
 //PUT/api/courses 201  - Updates a course and returns no content.
-router.put('/:id', authenticateUser, async(req,res, next) => {
+router.put('/:id', authenticateUser, async(req,res) => {
   try{
   let course = await Course.findByPk(req.params.id);
      if(course.userId = req.body.userId) {
@@ -123,8 +123,8 @@ router.put('/:id', authenticateUser, async(req,res, next) => {
       course = await course.update(req.body);  //Go back and update 'course'
       res.status(204).end();
     } else{
-      res.status(403).json({message: "You are not authorized to make changes to this course."});
-  }  
+      console.log(403).json({message: "You are not authorized to make changes to this course."});
+    }  
   } catch(err) { 
     res.status(500).json({message: err.message});
   }
@@ -140,7 +140,6 @@ router.delete('/:id', authenticateUser, async(req,res) => {
     res.status(500).json({message: err.message});
   }  //TODO - client request quote that does not exist
 });
-
 
 //Test Code - Course Router 
 // router.get('/', (req, res) => {
