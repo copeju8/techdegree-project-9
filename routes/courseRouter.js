@@ -8,7 +8,7 @@ const auth = require('basic-auth');
 const { Course, User } = models
 
 
-//GET/api/courses 200 - Return list of courses (owned by user)
+//GET/api/courses 200 - Return list of courses (including the user that owns each course).
 //User authentication middleware function
 const authenticateUser = async (req, res, next) => {
   let message;
@@ -73,7 +73,7 @@ router.get('/', async(req, res) => {
     res.json(courses)
   })
   
-//GET/api/courses/:id 
+//GET/api/courses/:id  200 - Returns a course (including the user that owns the course) for the provided course ID.
 router.get('/:id', async(req, res, next) => {
   const oneCourse = await Course.findOne({
       where: {
@@ -89,6 +89,7 @@ router.get('/:id', async(req, res, next) => {
     res.json(oneCourse); 
 })  
 
+//POST/api/courses 201 - Create a course, sets the Location header to the URI for the course - returns no content.
 router.post('/', authenticateUser, async (req, res, next) => {
   try{
     if(req.body.title && req.body.description)  {
@@ -106,7 +107,7 @@ router.post('/', authenticateUser, async (req, res, next) => {
   } 
 })
 
-//PUT/api/courses 201
+//PUT/api/courses 201  - Updates a course and returns no content.
 router.put('/:id', authenticateUser, async(req,res) => {
   try{
   let course = await Course.findByPk(req.params.id);
@@ -129,7 +130,7 @@ router.put('/:id', authenticateUser, async(req,res) => {
   }
 })
 
-// DELETE/api/courses/:id 204 
+// DELETE/api/courses/:id 204  - Deletes a course and returns no content.
 router.delete('/:id', authenticateUser, async(req,res) => {
   try {
     let course = await Course.findByPk(req.params.id);
