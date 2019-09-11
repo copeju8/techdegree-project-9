@@ -114,7 +114,7 @@ router.post('/', async (req, res, next) => {
 //PUT/api/courses 201  - Updates a course and returns no content.
 router.put('/:id', authenticateUser, async(req,res) => {
   try{
-  let course = await Course.findByPk(req.params.id);
+    let course = await Course.findByPk(req.params.id);
      if(course.userId = req.body.userId) {
       if(req.body.title && req.body.description)  {
       course.title = req.body.title;
