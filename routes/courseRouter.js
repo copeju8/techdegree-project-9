@@ -64,6 +64,9 @@ const authenticateUser = async (req, res, next) => {
 //GET/api/courses 200
 router.get('/', async(req, res) => {
   const courses =  await Course.findAll({
+    attributes: {
+      exclude: ['createdAt', 'updatedAt'],
+    },    
       include: [{
         model: User,
         as: 'user',
@@ -96,11 +99,12 @@ router.post('/', async (req, res, next) => {
     const createCourse = await Course.create(req.body); 
     res.location(`/api/courses/${createCourse.id}`);
     res.status(201).end();
-    }else {
-      const err = new Error('Missing Information')
-      err.status = 400;
-      next(err);
-    }  
+    }else{
+      //Respond with status 400
+      res.status(400).json({
+        message: 'Error 400 - Bad request - Missing information.',
+      });
+    }
   }catch (err) {
     console.log("Error 401 - Unauthorized Request");
     next(err);
@@ -112,6 +116,7 @@ router.put('/:id', authenticateUser, async(req,res) => {
   try{
   let course = await Course.findByPk(req.params.id);
      if(course.userId = req.body.userId) {
+      if(req.body.title && req.body.description)  {
       course.title = req.body.title;
       course.description = req.body.description;
       course.estimatedTime = req.body.estimatedTime;
@@ -122,6 +127,12 @@ router.put('/:id', authenticateUser, async(req,res) => {
 
       course = await course.update(req.body);  //Go back and update 'course'
       res.status(204).end();
+     } else{
+      //Respond with status 400
+      res.status(400).json({
+        message: 'Error 400 - Bad request - Missing information.',
+      });
+    }
     } else{
       console.log(403).json({message: "You are not authorized to make changes to this course."});
     }  

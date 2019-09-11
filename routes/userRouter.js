@@ -90,7 +90,9 @@ router.post('/', async (req, res, next) => {
       res.status(201).end();
     } else{
       //Respond with status 400
-      res.status(400).end();
+      res.status(400).json({
+        message: 'Error 400 - Bad Request.',
+      });
     }
 }catch (err) {
   if(err.name === "SequelizeValidatorError") {
