@@ -115,7 +115,7 @@ router.post('/', async (req, res, next) => {
 router.put('/:id', authenticateUser, async(req,res) => {
   try{
     let course = await Course.findByPk(req.params.id);
-     if(course.userId = req.body.userId) {
+     if(course.userId === req.body.userId) {
       if(req.body.title && req.body.description)  {
       course.title = req.body.title;
       course.description = req.body.description;
@@ -145,10 +145,12 @@ router.put('/:id', authenticateUser, async(req,res) => {
 router.delete('/:id', authenticateUser, async(req,res) => {
   try {
     let course = await Course.findByPk(req.params.id);
+    if(course.userId === req.body.userId) {
     await course.destroy(course); 
     res.status(204).end();
-    
-//Successful - no content
+    } else{
+    res.status(403).json({message: "You are not authorized to make changes to this course."});
+    }
   }catch(err){
     res.status(500).json({message: err.message});
   }  //TODO - client request quote that does not exist
