@@ -146,7 +146,9 @@ router.delete('/:id', authenticateUser, async(req,res) => {
   try {
     let course = await Course.findByPk(req.params.id);
     await course.destroy(course); 
-    res.status(204).end();          //Successful - no content
+    res.status(204).end();
+    
+//Successful - no content
   }catch(err){
     res.status(500).json({message: err.message});
   }  //TODO - client request quote that does not exist
